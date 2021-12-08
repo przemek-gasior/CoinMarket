@@ -31,3 +31,5 @@ C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Ne
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Text.Encodings.Web.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Text.Json.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

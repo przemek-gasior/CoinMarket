@@ -20,7 +20,7 @@ namespace CryptoMarket.Controllers
         }
 
         [HttpGet]
-        public async Task<Market> GetMarket()
+        public async Task<MarketDTO> GetMarket()
         {
             return await _marketService.GetMarketDataAsync();
         }

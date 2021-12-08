@@ -8,6 +8,6 @@ namespace CryptoMarket.Services
 {
     public interface IMarketService
     {
-        Task<Market> GetMarketDataAsync();
+        Task<MarketDTO> GetMarketDataAsync();
     }
 }

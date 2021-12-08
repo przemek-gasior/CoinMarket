@@ -33,9 +33,11 @@ namespace CryptoMarket
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoMarket", Version = "v1" });
             });
             services.AddScoped<IMarketService, MarketService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         }
 
-       
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
