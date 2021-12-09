@@ -1,5 +1,6 @@
 ﻿namespace CryptoMarket.Models
 {
+    //DB model to store market data
     public class Currency
     {
         public string Name { get; set; }

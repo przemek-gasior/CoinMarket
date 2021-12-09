@@ -33,3 +33,10 @@ C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Te
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.Text.Json.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

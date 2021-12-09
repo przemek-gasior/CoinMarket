@@ -13,7 +13,7 @@ namespace CryptoMarket.Services
     {
         private readonly HttpClient client = new HttpClient();
         private readonly IMapper _mapper;
-        public MarketDTO marketDTO = new MarketDTO();
+        private MarketDTO marketDTO = new MarketDTO();
         private string API_KEY= "d64c2c9d-1e8e-4298-8b88-31e45c93d258";
         private string uri = $"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=50&convert=USD";
 

@@ -1,5 +1,6 @@
 ﻿using CryptoMarket.Models;
 using CryptoMarket.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace CryptoMarket.Controllers
             _marketService = marketService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<MarketDTO> GetMarket()
         {
