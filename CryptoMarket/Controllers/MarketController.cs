@@ -20,11 +20,12 @@ namespace CryptoMarket.Controllers
             _marketService = marketService;
         }
 
-        [Authorize]
+        
         [HttpGet]
-        public async Task<MarketDTO> GetMarket()
+        public async Task<ICollection<Currency>> GetMarket()
         {
-            return await _marketService.GetMarketDataAsync();
+            await _marketService.GetMarketDataAsync(); //calling this method here just to seed db with market data
+            return await _marketService.FetchMarketData();
         }
     }
 }

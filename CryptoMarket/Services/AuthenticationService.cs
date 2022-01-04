@@ -38,9 +38,10 @@ namespace CryptoMarket.Services
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[] 
+            var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Name)
+                new Claim(ClaimTypes.NameIdentifier, user.Name),
+                new Claim("UserID", "id", user.Id.ToString())
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

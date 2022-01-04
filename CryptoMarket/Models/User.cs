@@ -12,5 +12,11 @@ namespace CryptoMarket.Models
         public string Password { get; set; }
         public float UsdBalance { get; set; }
         public CryptoWallet Wallet { get; set; }
+
+        public User()
+        {
+            UsdBalance = 1000;
+            Wallet = new();
+        }
     }
 }

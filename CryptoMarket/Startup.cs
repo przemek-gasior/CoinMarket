@@ -1,3 +1,4 @@
+using CryptoMarket.Configs;
 using CryptoMarket.Repositories;
 using CryptoMarket.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,8 +57,13 @@ namespace CryptoMarket
                 c.AddSecurityRequirement(securityRequirement);
             });
             services.AddScoped<IMarketService, MarketService>();
+            services.AddScoped<IMarketRepository, MarketRepository>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddDbContext<UserDbContext>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -4,7 +4,9 @@ namespace CryptoMarket.Models
 {
     public class CryptoWallet
     {
-        public ICollection<Currency> Currencies { get; set; }
-        public float ValueInUsd { get; set; }
+        
+        public int WalletId { get; set; }
+        public ICollection<WalletCurrency> Currencies { get; set; }
+
     }
 }
