@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoMarket.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220104132731_initialDbMigrationV3")]
-    partial class initialDbMigrationV3
+    [Migration("20220105115559_DBv1")]
+    partial class DBv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,9 +36,7 @@ namespace CryptoMarket.Migrations
             modelBuilder.Entity("CryptoMarket.Models.Currency", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<float>("MarketCapUSD")
                         .HasColumnType("real");

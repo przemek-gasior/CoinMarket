@@ -15,7 +15,7 @@ namespace CryptoMarket.Configs
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=CoinMarketDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=CoinsDB;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +32,8 @@ namespace CryptoMarket.Configs
                 .HasForeignKey(wc => wc.WalletId);
             modelBuilder.Entity<CryptoWallet>()
                 .HasKey(cw => cw.WalletId);
+            modelBuilder.Entity<Currency>()
+                .HasKey(c => c.Id);
 
         }
     }

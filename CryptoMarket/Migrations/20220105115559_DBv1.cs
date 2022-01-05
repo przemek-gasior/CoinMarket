@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CryptoMarket.Migrations
 {
-    public partial class initialDbMigrationV2 : Migration
+    public partial class DBv1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,8 +23,7 @@ namespace CryptoMarket.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PriceInUsd = table.Column<float>(type: "real", nullable: false),
                     PercentChange1h = table.Column<float>(type: "real", nullable: false),

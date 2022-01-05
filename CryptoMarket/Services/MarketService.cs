@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CryptoMarket.Models;
 using CryptoMarket.Repositories;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -13,17 +14,14 @@ namespace CryptoMarket.Services
     {
         private readonly IMapper _mapper;
         private readonly IMarketRepository _marketRepository;
-
-
+        private readonly IConfiguration _config;
         private readonly HttpClient client = new HttpClient();
-        private MarketDTO marketDTO = new MarketDTO();
-        private string API_KEY= "d64c2c9d-1e8e-4298-8b88-31e45c93d258";
-        private string uri = $"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=50&convert=USD";
 
-        public MarketService(IMapper mapper, IMarketRepository marketRepository)
+        public MarketService(IMapper mapper, IMarketRepository marketRepository, IConfiguration config)
         {
             _mapper = mapper;
             _marketRepository = marketRepository;
+            _config = config;
         }
 
         public async Task<ICollection<Currency>> FetchMarketData()
@@ -33,14 +31,15 @@ namespace CryptoMarket.Services
 
         public async Task GetMarketDataAsync()
         {
-            client.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", API_KEY);
+            client.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", _config["MarketApi:Key"]);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
 
             try
             {
                 
-                var marketResponse = await client.GetFromJsonAsync<Market>(uri);
+                var marketResponse = await client.GetFromJsonAsync<Market>(_config["MarketApi:Uri"]);
+                var marketDTO = new MarketDTO();
 
                 foreach (var item in marketResponse.Data)
                 {
@@ -48,7 +47,7 @@ namespace CryptoMarket.Services
                    marketDTO.CurrenciesMarket.Add(mappedData);
                 }
 
-                _marketRepository.SaveMarketData(marketDTO);
+                await _marketRepository.SaveMarketData(marketDTO);
                
             }
             catch(Exception e)

@@ -34,9 +34,7 @@ namespace CryptoMarket.Migrations
             modelBuilder.Entity("CryptoMarket.Models.Currency", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<float>("MarketCapUSD")
                         .HasColumnType("real");

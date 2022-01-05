@@ -24,21 +24,33 @@ namespace CryptoMarket.Repositories
             return await _userDbContext.Currencies.ToListAsync();
         }
 
-        public void SaveMarketData(MarketDTO marketData)
+        public async Task SaveMarketData(MarketDTO marketData)
         {
             foreach (var item in marketData.CurrenciesMarket)
             {
-                if( _userDbContext.Currencies.FirstOrDefault(x => x.Name == item.Name) == null)
+                if( _userDbContext.Currencies.AsNoTracking().FirstOrDefault(x => x.Name == item.Name) == null)
                 {
-                    _userDbContext.Add(item);
+                   await _userDbContext.AddAsync(item);
                 }
                 else
                 {
-                    _userDbContext.Update(_userDbContext.Currencies.FirstOrDefault(x => x.Name == item.Name));
-                }                   
+                    try
+                    {
+                        _userDbContext.Update(item);
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.WriteLine(e);
+                    }
+                    
+                    
+                }
+
+                _userDbContext.SaveChanges();
             }
 
-            _userDbContext.SaveChanges();
+            
             
         }
     }

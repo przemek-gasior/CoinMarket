@@ -8,7 +8,7 @@ namespace CryptoMarket.Repositories
 {
     public interface IMarketRepository
     {
-        void SaveMarketData(MarketDTO marketData);
+        Task SaveMarketData(MarketDTO marketData);
         Task<ICollection<Currency>> FetchMarketData();
     }
 }
