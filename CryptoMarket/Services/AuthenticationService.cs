@@ -41,7 +41,7 @@ namespace CryptoMarket.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Name),
-                new Claim("UserID", "id", user.Id.ToString())
+                new Claim("UserID", user.Id.ToString())
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

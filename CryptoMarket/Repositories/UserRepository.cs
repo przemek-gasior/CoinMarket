@@ -31,8 +31,7 @@ namespace CryptoMarket.Repositories
 
         public async Task<User> GetUserByIdAsync(Guid Id)
         {
-            return await _userContext.Users.FirstOrDefaultAsync(u => u.Id == Id);
-
+            return await _userContext.Users.Include(x => x.Wallet).FirstOrDefaultAsync(u => u.Id == Id);
         }
 
         public void CreateUserAsync(User user)

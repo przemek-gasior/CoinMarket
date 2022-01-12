@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoMarket.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20220105115559_DBv1")]
+    [Migration("20220112102938_DBv1")]
     partial class DBv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace CryptoMarket.Migrations
 
                     b.HasKey("WalletId");
 
-                    b.ToTable("CryptoWallet");
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("CryptoMarket.Models.Currency", b =>
@@ -56,9 +56,6 @@ namespace CryptoMarket.Migrations
                     b.Property<float>("PriceInUsd")
                         .HasColumnType("real");
 
-                    b.Property<float?>("Quantity")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
@@ -79,67 +76,77 @@ namespace CryptoMarket.Migrations
                     b.Property<float>("UsdBalance")
                         .HasColumnType("real");
 
-                    b.Property<int?>("WalletId")
+                    b.Property<int>("WalletId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WalletId");
+                    b.HasIndex("WalletId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CryptoMarket.Models.WalletCurrency", b =>
+            modelBuilder.Entity("CryptoMarket.Models.UserCurrency", b =>
                 {
                     b.Property<int>("CurrencyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Value")
+                        .HasColumnType("real");
+
+                    b.HasKey("CurrencyId");
+
+                    b.ToTable("UserCurrencies");
+                });
+
+            modelBuilder.Entity("CryptoWalletUserCurrency", b =>
+                {
+                    b.Property<int>("CryptoWalletsWalletId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WalletId")
+                    b.Property<int>("CurrenciesCurrencyId")
                         .HasColumnType("int");
 
-                    b.HasKey("CurrencyId", "WalletId");
+                    b.HasKey("CryptoWalletsWalletId", "CurrenciesCurrencyId");
 
-                    b.HasIndex("WalletId");
+                    b.HasIndex("CurrenciesCurrencyId");
 
-                    b.ToTable("WalletCurrency");
+                    b.ToTable("CryptoWalletUserCurrency");
                 });
 
             modelBuilder.Entity("CryptoMarket.Models.User", b =>
                 {
                     b.HasOne("CryptoMarket.Models.CryptoWallet", "Wallet")
+                        .WithOne()
+                        .HasForeignKey("CryptoMarket.Models.User", "WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("CryptoWalletUserCurrency", b =>
+                {
+                    b.HasOne("CryptoMarket.Models.CryptoWallet", null)
                         .WithMany()
-                        .HasForeignKey("WalletId");
-
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("CryptoMarket.Models.WalletCurrency", b =>
-                {
-                    b.HasOne("CryptoMarket.Models.Currency", "Currency")
-                        .WithMany("Wallets")
-                        .HasForeignKey("CurrencyId")
+                        .HasForeignKey("CryptoWalletsWalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CryptoMarket.Models.CryptoWallet", "Wallet")
-                        .WithMany("Currencies")
-                        .HasForeignKey("WalletId")
+                    b.HasOne("CryptoMarket.Models.UserCurrency", null)
+                        .WithMany()
+                        .HasForeignKey("CurrenciesCurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Currency");
-
-                    b.Navigation("Wallet");
-                });
-
-            modelBuilder.Entity("CryptoMarket.Models.CryptoWallet", b =>
-                {
-                    b.Navigation("Currencies");
-                });
-
-            modelBuilder.Entity("CryptoMarket.Models.Currency", b =>
-                {
-                    b.Navigation("Wallets");
                 });
 #pragma warning restore 612, 618
         }

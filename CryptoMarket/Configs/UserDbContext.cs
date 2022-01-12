@@ -11,30 +11,28 @@ namespace CryptoMarket.Configs
     {
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<UserCurrency> UserCurrencies { get; set; }
+        public virtual DbSet<CryptoWallet> Wallets { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=CoinsDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=CoinsDB;Trusted_Connection=True;");            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WalletCurrency>()
-                .HasKey(wc => new { wc.CurrencyId, wc.WalletId });
-            modelBuilder.Entity<WalletCurrency>()
-                .HasOne(wc => wc.Currency)
-                .WithMany(wc => wc.Wallets)
-                .HasForeignKey(wc => wc.CurrencyId);
-            modelBuilder.Entity<WalletCurrency>()
-                .HasOne(wc => wc.Wallet)
-                .WithMany(wc => wc.Currencies)
-                .HasForeignKey(wc => wc.WalletId);
+
             modelBuilder.Entity<CryptoWallet>()
                 .HasKey(cw => cw.WalletId);
+            modelBuilder.Entity<UserCurrency>()
+                .HasKey(x => x.CurrencyId);
+
             modelBuilder.Entity<Currency>()
                 .HasKey(c => c.Id);
-
+            modelBuilder.Entity<User>()
+                .HasOne(w => w.Wallet)
+                .WithOne();
         }
     }
 }

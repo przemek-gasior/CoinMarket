@@ -10,5 +10,9 @@ namespace CryptoMarket.Repositories
     {
         Task SaveMarketData(MarketDTO marketData);
         Task<ICollection<Currency>> FetchMarketData();
+
+        Task<Currency> GetCryptoByNameAsync(string name);
+
+        Task UpdateUserWallet(User user, CryptoTransaction transaction);
     }
 }

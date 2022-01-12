@@ -78,6 +78,7 @@ namespace CryptoMarket
                                 ValidAudience = Configuration["Jwt:Audience"],
                                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                             };
+                        options.SaveToken = true;
     });
 
         }

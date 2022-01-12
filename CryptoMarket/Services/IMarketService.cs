@@ -10,5 +10,7 @@ namespace CryptoMarket.Services
     {
         Task GetMarketDataAsync();
         Task<ICollection<Currency>> FetchMarketData();
+
+        Task CryptoPurchase(CryptoTransaction transaction, string token);
     }
 }
