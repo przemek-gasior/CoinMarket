@@ -48,6 +48,18 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "Hangfire.AspNetCore": {
+              "target": "Package",
+              "version": "[1.7.28, )"
+            },
+            "Hangfire.Core": {
+              "target": "Package",
+              "version": "[1.7.28, )"
+            },
+            "Hangfire.MemoryStorage": {
+              "target": "Package",
+              "version": "[1.7.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[5.0.12, )"

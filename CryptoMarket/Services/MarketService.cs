@@ -28,7 +28,7 @@ namespace CryptoMarket.Services
             _userRepository = userRepository;
         }
 
-        public async Task CryptoPurchase(CryptoTransaction transaction, string token)
+        public async Task CryptoPurchase(BuyCrypto transaction, string token)
         {
             // decode token to grab a user
             var handler = new JwtSecurityTokenHandler();
@@ -49,10 +49,11 @@ namespace CryptoMarket.Services
 
             if(user.UsdBalance >= transaction.TransactionCost)
             {
-                //dummy data
-
-                await _marketRepository.UpdateUserWallet(user, transaction);
-
+                await _marketRepository.UpdateUserWalletPurchase(user, transaction);
+            }
+            else
+            {
+                throw new Exception("non-sufficient funds");
             }
 
 
@@ -89,6 +90,40 @@ namespace CryptoMarket.Services
                 Console.WriteLine("Message :{0} ", e.Message);               
             }
            
+
+        }
+
+        public async Task SellCrypto(SellCrypto transaction, string token)
+        {
+            // decode token to grab a user
+            var handler = new JwtSecurityTokenHandler();
+            var decodedToken = handler.ReadJwtToken(token);
+            var id = decodedToken.Claims.FirstOrDefault(x => x.Type == "UserID").Value;
+
+            // Getting user for transaction
+            var user = await _userRepository.GetUserByIdAsync(Guid.Parse(id));
+
+            try
+            {
+                //get coin information for transaction
+                var coin = await _marketRepository.GetCryptoByNameAsync(transaction.CryptoName);
+                if(coin != null)
+                {
+                    //calculate transaction value
+                    transaction.ValueOfTransaction = coin.PriceInUsd * transaction.CryptoQuantity;
+                    //proceed
+                    await _marketRepository.UpdateUserWalletSell(user, transaction);
+                }
+                else
+                {
+                    throw new Exception("Crypto not found");
+                }
+
+            }
+            catch(Exception)
+            {
+                throw;
+            }
 
         }
     }

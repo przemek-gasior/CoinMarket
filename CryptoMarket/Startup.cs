@@ -1,6 +1,8 @@
 using CryptoMarket.Configs;
 using CryptoMarket.Repositories;
 using CryptoMarket.Services;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,11 +33,16 @@ namespace CryptoMarket
     
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddHangfire(options =>
+                    options.UseSimpleAssemblyNameTypeSerializer().
+                            UseDefaultTypeSerializer().
+                            UseMemoryStorage());
+            services.AddHangfireServer();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoMarket", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoMarket", Version = "v1"});
+                
                 
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -84,7 +91,7 @@ namespace CryptoMarket
         }
 
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -93,9 +100,12 @@ namespace CryptoMarket
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CryptoMarket v1"));
             }
 
+            app.UseHangfireDashboard();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            recurringJobManager.AddOrUpdate("Get Market Data from API", () => serviceProvider.GetService<IMarketService>().GetMarketDataAsync(), Cron.Minutely);
             
 
             app.UseEndpoints(endpoints =>

@@ -13,6 +13,7 @@ namespace CryptoMarket.Repositories
 
         Task<Currency> GetCryptoByNameAsync(string name);
 
-        Task UpdateUserWallet(User user, CryptoTransaction transaction);
+        Task UpdateUserWalletPurchase(User user, BuyCrypto transaction);
+        Task UpdateUserWalletSell(User user, SellCrypto transaction);
     }
 }
