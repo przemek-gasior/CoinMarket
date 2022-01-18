@@ -25,16 +25,8 @@ namespace CryptoMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserLogin user)
         {
-            try
-            {
-                await _userService.CreateUserAsync(user);
-                return Ok("Account Created");
-            }
-            catch(Exception)
-            {
-                return StatusCode(422, "User Already Exist");
-            }
-            
+            await _userService.CreateUserAsync(user);
+            return Ok("Account Created");
         }
     }
 }

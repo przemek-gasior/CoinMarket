@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CryptoMarket.Helpers;
 using CryptoMarket.Models;
 using CryptoMarket.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -41,22 +42,25 @@ namespace CryptoMarket.Services
             // get coin information for transaction
             var coin = await _marketRepository.GetCryptoByNameAsync(transaction.CryptoName);
 
-            // calculate the transaction cost
-
-            transaction.TransactionCost = coin.PriceInUsd * transaction.CryptoQuantity;
-
-            //check for the User Balance and proceed with transaction
-
-            if(user.UsdBalance >= transaction.TransactionCost)
+            if (coin != null)
             {
-                await _marketRepository.UpdateUserWalletPurchase(user, transaction);
+                // calculate the transaction cost
+                transaction.TransactionCost = coin.PriceInUsd * transaction.CryptoQuantity;
+
+                //check for the User Balance and proceed with transaction
+                if (user.UsdBalance >= transaction.TransactionCost)
+                {
+                    await _marketRepository.UpdateUserWalletPurchase(user, transaction);
+                }
+                else
+                {
+                    throw new AppException("non-sufficient funds");
+                }
             }
             else
             {
-                throw new Exception("non-sufficient funds");
+                throw new KeyNotFoundException("Crypto not found");
             }
-
-
         }
 
         public async Task<ICollection<Currency>> FetchMarketData()
@@ -68,7 +72,6 @@ namespace CryptoMarket.Services
         {
             client.DefaultRequestHeaders.Add("X-CMC_PRO_API_KEY", _config["MarketApi:Key"]);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-
 
             try
             {
@@ -103,28 +106,20 @@ namespace CryptoMarket.Services
             // Getting user for transaction
             var user = await _userRepository.GetUserByIdAsync(Guid.Parse(id));
 
-            try
-            {
-                //get coin information for transaction
-                var coin = await _marketRepository.GetCryptoByNameAsync(transaction.CryptoName);
-                if(coin != null)
-                {
-                    //calculate transaction value
-                    transaction.ValueOfTransaction = coin.PriceInUsd * transaction.CryptoQuantity;
-                    //proceed
-                    await _marketRepository.UpdateUserWalletSell(user, transaction);
-                }
-                else
-                {
-                    throw new Exception("Crypto not found");
-                }
+            //get coin information for transaction
+            var coin = await _marketRepository.GetCryptoByNameAsync(transaction.CryptoName);
 
-            }
-            catch(Exception)
+            if(coin != null)
             {
-                throw;
+                //calculate transaction value
+                transaction.ValueOfTransaction = coin.PriceInUsd * transaction.CryptoQuantity;
+                //proceed
+                await _marketRepository.UpdateUserWalletSell(user, transaction);
             }
-
+            else
+            {
+                throw new KeyNotFoundException("Crypto not found");
+            }
         }
     }
 }

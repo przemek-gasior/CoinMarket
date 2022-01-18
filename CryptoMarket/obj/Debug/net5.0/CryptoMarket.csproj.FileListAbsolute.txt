@@ -84,3 +84,6 @@ C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\pt\Hangfi
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\tr-TR\Hangfire.Core.resources.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\zh-TW\Hangfire.Core.resources.dll
 C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\zh\Hangfire.Core.resources.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\FluentValidation.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+C:\Users\przem\source\repos\CryptoMarket\CryptoMarket\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll

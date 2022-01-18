@@ -1,6 +1,11 @@
 using CryptoMarket.Configs;
+using CryptoMarket.Helpers;
+using CryptoMarket.Models;
 using CryptoMarket.Repositories;
 using CryptoMarket.Services;
+using CryptoMarket.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +44,7 @@ namespace CryptoMarket
                             UseMemoryStorage());
             services.AddHangfireServer();
             services.AddControllers();
+            services.AddFluentValidation();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoMarket", Version = "v1"});
@@ -68,8 +74,13 @@ namespace CryptoMarket
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IValidator<BuyCrypto>, BuyCryptoValidator>();
+            services.AddTransient<IValidator<SellCrypto>, SellCryptoValidator>();
+            services.AddTransient<IValidator<UserLogin>, UserLoginValidator>();
 
             services.AddDbContext<UserDbContext>();
+
+            
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -104,6 +115,8 @@ namespace CryptoMarket
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandler>();
 
             recurringJobManager.AddOrUpdate("Get Market Data from API", () => serviceProvider.GetService<IMarketService>().GetMarketDataAsync(), Cron.Minutely);
             

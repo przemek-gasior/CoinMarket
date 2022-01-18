@@ -18,16 +18,16 @@ namespace CryptoMarket.Services
         {
             if (await _userRepository.GetUserByNameAsync(user.Name) != null)
             {
-                throw new Exception("user already exist");
+                throw new AppException("User already exist");
             }
             else
             {
                 var hashedPassword = hashPassword.sha256(user.Password);
                 var newUser = new User
                 {
-                    Name = user.Name,
-                    Password = hashedPassword
-                };
+                     Name = user.Name,
+                     Password = hashedPassword
+                 };
 
                 _userRepository.CreateUserAsync(newUser);
             }

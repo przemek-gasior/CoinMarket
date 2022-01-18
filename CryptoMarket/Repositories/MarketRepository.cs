@@ -1,4 +1,5 @@
 ﻿using CryptoMarket.Configs;
+using CryptoMarket.Helpers;
 using CryptoMarket.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -82,7 +83,7 @@ namespace CryptoMarket.Repositories
 
             if (processedCurrency == null || processedCurrency.Quantity < transaction.CryptoQuantity)
             {
-                throw new Exception("non sufficient amount of " + transaction.CryptoName);
+                throw new AppException("non sufficient amount of " + transaction.CryptoName);
             }
             else
             {

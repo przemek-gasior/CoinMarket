@@ -25,13 +25,26 @@ namespace CryptoMarket.Repositories
             {
                 return currentUser;
             }
-            return null;
-            
+            else
+            {
+                throw new AppException("Invalid credentials");
+            }
+
         }
 
         public async Task<User> GetUserByIdAsync(Guid Id)
         {
-            return await _userContext.Users.Include(x => x.Wallet).FirstOrDefaultAsync(u => u.Id == Id);
+            var user = await _userContext.Users.Include(x => x.Wallet).FirstOrDefaultAsync(u => u.Id == Id);
+
+            if (user != null)
+            { 
+                return user;
+            }
+            else
+            {
+                throw new AppException("Invalid credentials");
+            }
+
         }
 
         public void CreateUserAsync(User user)
@@ -43,6 +56,7 @@ namespace CryptoMarket.Repositories
         public async Task<User> GetUserByNameAsync(string Name)
         {
             return await _userContext.Users.FirstOrDefaultAsync(u => u.Name == Name);
+
         }
     }
 }

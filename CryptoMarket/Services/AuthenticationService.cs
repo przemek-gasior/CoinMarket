@@ -29,7 +29,7 @@ namespace CryptoMarket.Services
             {
                 return GenerateToken(userToLogin);
             }
-            return null;
+            throw new KeyNotFoundException("404 User Not Found");
             
         }
 

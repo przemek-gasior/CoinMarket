@@ -43,16 +43,9 @@ namespace CryptoMarket.Controllers
         public async Task<IActionResult> SellCrypto([FromBody] SellCrypto transaction)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
-            try
-            {
+
                 await _marketService.SellCrypto(transaction, token);
                 return Ok();
-            }
-            catch
-            {
-                return StatusCode(422, "Insufficient founds.");
-            }
-            
         }
     }
 }

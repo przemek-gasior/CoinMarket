@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[10.3.6, )"
+            },
             "Hangfire.AspNetCore": {
               "target": "Package",
               "version": "[1.7.28, )"

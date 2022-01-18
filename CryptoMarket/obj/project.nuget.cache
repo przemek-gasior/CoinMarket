@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "YtjvaNJznu73B2oTkxC6jpkTfUdZGQZpVcDBc8muN38LAhg8qGRPoATpHj9p87jrrFeh8jnNsp4txdnt5jVslg==",
+  "dgSpecHash": "BjMtFDPaVT5AmV1mpb2CkTStZpIflCCtdj+akDLwMTlHLK+Hfi3A6qaOTxGRsblATQlhKyYGVADDsh8647Ba4w==",
   "success": true,
   "projectFilePath": "C:\\Users\\przem\\source\\repos\\CryptoMarket\\CryptoMarket\\CryptoMarket.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\przem\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\przem\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\przem\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
+    "C:\\Users\\przem\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
+    "C:\\Users\\przem\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.3.6\\fluentvalidation.aspnetcore.10.3.6.nupkg.sha512",
+    "C:\\Users\\przem\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.3.6\\fluentvalidation.dependencyinjectionextensions.10.3.6.nupkg.sha512",
     "C:\\Users\\przem\\.nuget\\packages\\hangfire.aspnetcore\\1.7.28\\hangfire.aspnetcore.1.7.28.nupkg.sha512",
     "C:\\Users\\przem\\.nuget\\packages\\hangfire.core\\1.7.28\\hangfire.core.1.7.28.nupkg.sha512",
     "C:\\Users\\przem\\.nuget\\packages\\hangfire.memorystorage\\1.7.0\\hangfire.memorystorage.1.7.0.nupkg.sha512",
