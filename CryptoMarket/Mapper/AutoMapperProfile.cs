@@ -18,7 +18,13 @@ namespace CryptoMarket.Mapper
                 .ForMember(dest => dest.PercentChange24h, o => o.MapFrom(o => o.Usd.Percent_Change_24h))
                 .ForMember(dest => dest.PercentChange7d, o => o.MapFrom(o => o.Usd.Percent_Change_7d))
                 .ForMember(dest => dest.MarketCapUSD, o => o.MapFrom(o => o.Usd.Market_Cap));
-   
+
+            CreateMap<User, UserDto>().IncludeMembers(cw => cw.Wallet);
+            CreateMap<CryptoWallet, UserDto>()
+                .ForMember(x => x.Currencies, x => x.MapFrom(x => x.Currencies));
+            CreateMap<UserCurrency, UserCurrencyDto>();
+
+
         }
     }
 }

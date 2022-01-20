@@ -10,6 +10,7 @@ namespace CryptoMarket.Repositories
     {
         User Authenticate(UserLogin user);
         Task<User> GetUserByIdAsync(Guid Id);
+        Task<UserDto> GetUserByIdAsDto(Guid Id);
         Task<User> GetUserByNameAsync(string Name);
         void CreateUserAsync(User user);
     }

@@ -18,23 +18,22 @@ namespace CryptoMarket.Services
         private readonly IMapper _mapper;
         private readonly IMarketRepository _marketRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IConfiguration _config;
         private readonly HttpClient client = new HttpClient();
 
-        public MarketService(IMapper mapper, IMarketRepository marketRepository, IConfiguration config, IUserRepository userRepository)
+        public MarketService(IMapper mapper, IMarketRepository marketRepository, IConfiguration config, IUserRepository userRepository, IUserService userService)
         {
             _mapper = mapper;
             _marketRepository = marketRepository;
             _config = config;
             _userRepository = userRepository;
+            _userService = userService;
         }
 
-        public async Task CryptoPurchase(BuyCrypto transaction, string token)
+        public async Task CryptoPurchase(CryptoTransaction transaction, string token)
         {
-            // decode token to grab a user
-            var handler = new JwtSecurityTokenHandler();
-            var decodedToken = handler.ReadJwtToken(token);
-            var id = decodedToken.Claims.FirstOrDefault(x => x.Type == "UserID").Value;
+            var id = _userService.RetrieveUserDataFromToken(token);
 
             // Getting user for transaction
             var user = await _userRepository.GetUserByIdAsync(Guid.Parse(id));
@@ -45,12 +44,19 @@ namespace CryptoMarket.Services
             if (coin != null)
             {
                 // calculate the transaction cost
-                transaction.TransactionCost = coin.PriceInUsd * transaction.CryptoQuantity;
+                var transactionValue = coin.PriceInUsd * transaction.CryptoQuantity;
+
+                var transactionToProcess = new CryptoTransactionModel
+                {
+                    CryptoName = transaction.CryptoName,
+                    CryptoQuantity = transaction.CryptoQuantity,
+                    Value = transactionValue
+                };
 
                 //check for the User Balance and proceed with transaction
-                if (user.UsdBalance >= transaction.TransactionCost)
+                if (user.UsdBalance >= transactionToProcess.Value)
                 {
-                    await _marketRepository.UpdateUserWalletPurchase(user, transaction);
+                    await _marketRepository.UpdateUserWalletPurchase(user, transactionToProcess);
                 }
                 else
                 {
@@ -96,12 +102,11 @@ namespace CryptoMarket.Services
 
         }
 
-        public async Task SellCrypto(SellCrypto transaction, string token)
+        public async Task SellCrypto(CryptoTransaction transaction, string token)
         {
             // decode token to grab a user
-            var handler = new JwtSecurityTokenHandler();
-            var decodedToken = handler.ReadJwtToken(token);
-            var id = decodedToken.Claims.FirstOrDefault(x => x.Type == "UserID").Value;
+
+            var id = _userService.RetrieveUserDataFromToken(token);
 
             // Getting user for transaction
             var user = await _userRepository.GetUserByIdAsync(Guid.Parse(id));
@@ -112,14 +117,21 @@ namespace CryptoMarket.Services
             if(coin != null)
             {
                 //calculate transaction value
-                transaction.ValueOfTransaction = coin.PriceInUsd * transaction.CryptoQuantity;
+                var transactionValue = coin.PriceInUsd * transaction.CryptoQuantity;
+                var transactionToProcess = new CryptoTransactionModel
+                {
+                    CryptoName = transaction.CryptoName,
+                    CryptoQuantity = transaction.CryptoQuantity,
+                    Value = transactionValue
+                };
+
                 //proceed
-                await _marketRepository.UpdateUserWalletSell(user, transaction);
+                await _marketRepository.UpdateUserWalletSell(user, transactionToProcess);
             }
             else
             {
                 throw new KeyNotFoundException("Crypto not found");
-            }
+            } 
         }
     }
 }

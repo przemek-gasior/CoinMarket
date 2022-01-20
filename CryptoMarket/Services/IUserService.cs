@@ -9,5 +9,8 @@ namespace CryptoMarket.Services
     public interface IUserService
     {
         Task CreateUserAsync(UserLogin user);
+
+        Task<UserDto> GetUser(string token);
+        string RetrieveUserDataFromToken(string token);
     }
 }

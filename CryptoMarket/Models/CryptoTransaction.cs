@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace CryptoMarket.Models
 {
-    public class SellCrypto
+    public class CryptoTransaction
     {
         public string CryptoName { get; set; }
         public float CryptoQuantity { get; set; }
-        public float ValueOfTransaction { get; set; }
     }
 }

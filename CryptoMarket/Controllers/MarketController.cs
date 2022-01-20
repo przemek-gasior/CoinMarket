@@ -31,7 +31,7 @@ namespace CryptoMarket.Controllers
         [Authorize]
         [HttpPost]
         [Route("/Buy")]
-        public async Task BuyCrypto([FromBody] BuyCrypto transaction)
+        public async Task BuyCrypto([FromBody] CryptoTransaction transaction)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
             await _marketService.CryptoPurchase(transaction, token);
@@ -40,12 +40,12 @@ namespace CryptoMarket.Controllers
         [Authorize]
         [HttpPost]
         [Route("/Sell")]
-        public async Task<IActionResult> SellCrypto([FromBody] SellCrypto transaction)
+        public async Task<IActionResult> SellCrypto([FromBody] CryptoTransaction transaction)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 
-                await _marketService.SellCrypto(transaction, token);
-                return Ok();
+            await _marketService.SellCrypto(transaction, token);
+            return Ok();
         }
     }
 }

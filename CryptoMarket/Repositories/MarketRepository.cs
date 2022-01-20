@@ -53,7 +53,7 @@ namespace CryptoMarket.Repositories
 
         }
 
-        public async Task UpdateUserWalletPurchase(User user, BuyCrypto transaction)
+        public async Task UpdateUserWalletPurchase(User user, CryptoTransactionModel transaction)
         {
            var wallet = await _userDbContext.Wallets.Include(x => x.Currencies).FirstOrDefaultAsync(x => x.WalletId == user.WalletId);
            var currencyToBuy = await _userDbContext.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Name == transaction.CryptoName);
@@ -61,21 +61,24 @@ namespace CryptoMarket.Repositories
             
 
             if ( processedCurrency == null)
+            {
                 wallet.Currencies.Add(new UserCurrency
-                {                
+                {
                     Name = currencyToBuy.Name,
                     Quantity = transaction.CryptoQuantity
                 });
+                user.UsdBalance -= transaction.Value;
+            }
             else
             {
                 processedCurrency.Quantity += transaction.CryptoQuantity;
-                user.UsdBalance -= transaction.TransactionCost;
+                user.UsdBalance -= transaction.Value;
             }
 
          _userDbContext.SaveChanges();
         }
 
-        public async Task UpdateUserWalletSell(User user, SellCrypto transaction)
+        public async Task UpdateUserWalletSell(User user, CryptoTransactionModel transaction)
         {
             var wallet = await _userDbContext.Wallets.Include(x => x.Currencies).FirstOrDefaultAsync(x => x.WalletId == user.WalletId);
             var currencyToSell = await _userDbContext.Currencies.AsNoTracking().FirstOrDefaultAsync(x => x.Name == transaction.CryptoName);
@@ -88,7 +91,7 @@ namespace CryptoMarket.Repositories
             else
             {
                 processedCurrency.Quantity -= transaction.CryptoQuantity;
-                user.UsdBalance += transaction.ValueOfTransaction;
+                user.UsdBalance -= transaction.Value;
             }
 
             _userDbContext.SaveChanges();

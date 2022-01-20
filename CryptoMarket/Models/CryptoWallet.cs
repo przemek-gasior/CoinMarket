@@ -6,7 +6,7 @@ namespace CryptoMarket.Models
     {
         
         public virtual int WalletId { get; set; }
-        public virtual int CurrencyId { get; set; }
+       // public virtual int CurrencyId { get; set; }
         public virtual List<UserCurrency> Currencies { get; set; }
 
         public CryptoWallet()

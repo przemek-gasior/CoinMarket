@@ -1,6 +1,7 @@
 ﻿using CryptoMarket.Models;
 using CryptoMarket.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,7 @@ namespace CryptoMarket.Services
             {
                 return GenerateToken(userToLogin);
             }
-            throw new KeyNotFoundException("404 User Not Found");
-            
+            throw new KeyNotFoundException("404 User Not Found");  
         }
 
         private string GenerateToken(User user)

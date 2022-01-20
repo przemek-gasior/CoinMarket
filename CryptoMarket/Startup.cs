@@ -74,8 +74,7 @@ namespace CryptoMarket
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            services.AddTransient<IValidator<BuyCrypto>, BuyCryptoValidator>();
-            services.AddTransient<IValidator<SellCrypto>, SellCryptoValidator>();
+            services.AddTransient<IValidator<CryptoTransaction>, TransactionValidator>();
             services.AddTransient<IValidator<UserLogin>, UserLoginValidator>();
 
             services.AddDbContext<UserDbContext>();
